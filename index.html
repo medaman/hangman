@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Hangman</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="assets/css/style.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://fonts.googleapis.com/css?family=Inconsolata|Josefin+Sans" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 hidden-sm hidden-xs visible-md visible-lg visible-xl sectionBorder">
+					<div id="scoreboard">
+						<div class="row">
+							<div class="col-md-6">
+								<p>Score:</p>
+							</div>
+							<div class="col-md-5 scoreboardScore">
+								<p id="score">100</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<p>Wins:</p>
+							</div>
+							<div class="col-md-5 scoreboardScore">
+								<p id="wins">0</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<p>Losses:</p>
+							</div>
+							<div class="col-md-5 scoreboardScore">
+								<p id="losses">100</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<p>Level:</p>
+							</div>
+							<div class="col-md-5">
+								<p id="currentLevel" style="text-decoration: underline;">Medium</p>
+							</div>
+						</div>
+						<div class="row" style="margin-top:20px;">
+							<div class="col-md-6">
+								<p>Chances Left:</p>
+							</div>
+							<div class="col-md-5 scoreboardScore">
+								<p id="chancesLeft">10</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<p>Last Guess:</p>
+							</div>
+							<div class="col-md-5 scoreboardScore">
+								<p id="lastLetter">L</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 sectionBorder">
+					<div class="row">
+						<div class="col-xs-4">
+							<h1>
+								HANGMAN
+							</h1>
+						</div>
+						<div class="col-xs-8">
+							<nav class="navbar">
+								<div class="container-fluid">
+									<div class="navbar-header">
+							      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+											<span class="sr-only">Toggle navigation</span>
+											<span class="icon-bar" style="background-color: white"></span>
+											<span class="icon-bar" style="background-color: white"></span>
+											<span class="icon-bar" style="background-color: white"></span>
+										</button>
+							    </div>
+									<div class="collapse navbar-collapse" id="navbar-collapse-1">
+										<ul class="nav navbar-nav navbar-right">
+											<li class="dropdown">
+												<ul class="dropdown-menu">
+													<li><a href="#">Sports (EASY)</a></li>
+													<li><a href="#">Gaming (MEDIUM)</a></li>
+													<li><a href="#">Hollywood Movies (HARD)</a></li>
+												</ul>
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+											</li>
+											<li><a href="#">Restart</a></li>
+											<li class="visible-sm visible-xs invisible-md invisible-lg invisible-xl"><p>Score: <span id="scorePhone">100</span></p></li>
+											<li class="visible-sm visible-xs invisible-md invisible-lg invisible-xl"><p>Wins: <span id="winsPhone">100</span></p></li>
+											<li class="visible-sm visible-xs invisible-md invisible-lg invisible-xl"><p>Losses: <span id="lossesPhone">100</span></p></li>
+											<li class="visible-sm visible-xs invisible-md invisible-lg invisible-xl"><p>Level: <span id="levelPhone">100</span></p></li>
+										</ul>
+									</div>
+								</div>
+							</nav>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 hangmanPerson">
+							<img id="hangman" src="assets/images/0.jpg">
+						</div>
+					</div>
+					<div class="row">
+						<div id="usedLetters"></div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+		<script src="assets/js/javascript.js"></script>
+		
+	</body>
+</html>

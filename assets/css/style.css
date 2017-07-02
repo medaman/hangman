@@ -1,0 +1,66 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background:black;
+	padding-top:2vh;
+}
+
+h1 {
+	color:white;
+	font-size:7.5vh;
+	-webkit-text-stroke: 1px black;
+
+}
+
+nav li, nav a {
+	color:white;
+	font-size:4vh;
+}
+
+nav p {
+	margin-left:4%;
+}
+
+#usedLetters {
+	text-align: center;
+}
+
+#usedLetters p, #scoreboard {
+	font-family: 'Inconsolata';
+	display:inline;
+	margin: 0 10px;
+	color: white;
+}
+
+#usedLetters p {
+	font-size:4.5vw;
+}
+
+#scoreboard {
+	font-size:2.4vw;
+}
+
+.sectionBorder {
+	border: 8px solid white;
+	min-height:95vh;
+}
+
+img {
+	width:30%;
+}
+
+.hangmanPerson {
+	width:100%;
+	margin: auto;
+	background-color:white;
+}
+
+.scoreboardScore {
+	text-align:center;
+	margin-bottom:10px;
+	background: white;
+	color:black;
+	font-weight: bolder;
+}
