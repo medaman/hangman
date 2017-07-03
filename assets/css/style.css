@@ -118,8 +118,8 @@ Help Screen Styles
 	display:block;
 	text-align: center;
 	margin:2% auto;
-	line-height:10vh;
-	min-width:30%;
+	min-height:12vh;
+	min-width:22%;
 	font-size: 1.2em;
 }
 
