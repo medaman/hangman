@@ -119,7 +119,7 @@ Help Screen Styles
 	text-align: center;
 	margin:2% auto;
 	line-height:10vh;
-	width:30%;
+	min-width:30%;
 	font-size: 1.2em;
 }
 
