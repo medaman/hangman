@@ -32,14 +32,16 @@ nav p {
 	text-align: center;
 }
 
-#usedLetters p, #scoreboard {
+#usedLetters button, #scoreboard {
 	font-family: 'Inconsolata';
 	display:inline;
 	margin: 0 10px;
 	color: white;
+	background: black;
+	border:0px;
 }
 
-#usedLetters p {
+#usedLetters button {
 	font-size:4vw;
 }
 

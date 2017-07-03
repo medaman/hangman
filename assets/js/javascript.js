@@ -17,13 +17,17 @@ var guesses = ["'", "-"];
 var loserContent = wordDisplay + "<h3>You Lose...</h3> <p>Press any key to continue.</p>"
 
 for(var i=0; i<alphabet.length; i++) {
-	alphabetDisplay = alphabetDisplay + " <p id=" + alphabet[i] + ">" + alphabet[i] + "</p>";
+	alphabetDisplay = alphabetDisplay + ' <button id="' + alphabet[i] + '" onclick=keyPressed("' + alphabet[i] + '");>' + alphabet[i] + "</button>";
+	console.log(alphabetDisplay);
 }
 document.getElementById("usedLetters").innerHTML = alphabetDisplay;
 
 document.onkeyup = function(event) {
-	var press = event.key.toUpperCase();
-	keyPressed(press);
+	var buttonPress = event.key.toUpperCase();
+	keyPressed(buttonPress);
+}
+
+var keyPressed = function(press) {
 
 	var correct = false;
 	wordDisplay = "<p>"
@@ -53,6 +57,7 @@ document.onkeyup = function(event) {
 		}
 
 		document.getElementById("wordDisplay").innerHTML = wordDisplay;
+		document.getElementById(press).style.disabled = "true";
 		document.getElementById(press).style.color = "transparent";
 		document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(255,255,255,0.5)";
 		document.getElementById("hangman").src="assets/images/" + mistakes + ".jpg";
@@ -78,7 +83,7 @@ var checkWin = function() {
 		document
 		setTimeout(function() {
 			displayWord();
-		}, 4000);
+		}, 3200);
 	}
 	else {
 		for(var i=0; i<currentWordArray.length; i++) {
@@ -98,7 +103,7 @@ var checkWin = function() {
 			document
 			setTimeout(function() {
 				displayWord();
-			}, 4000);
+			}, 3200);
 		}
 	}		
 }
