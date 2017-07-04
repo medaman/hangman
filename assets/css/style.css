@@ -49,7 +49,7 @@ nav p {
 #usedLetters button, #usedLettersPhone button, #scoreboard {
 	font-family: 'Inconsolata';
 	display:inline;
-	margin: 0 .2em;
+	margin: 0 .15em;
 	color: white;
 	background: black;
 	border:0px;
