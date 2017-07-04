@@ -78,6 +78,16 @@ img {
 	font-weight: bolder;
 }
 
+.glyphicon {
+	position:fixed;
+	right:0;
+	top:0;
+	height:8vh;
+	width:4%;
+	z-index:20;
+	color:black;
+}
+
 /************************************************************
 Word Area Styles
 *********************************************************8***/

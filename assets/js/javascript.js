@@ -4,7 +4,7 @@ var changeLevel = false;
 var mistakes = 0;
 var numWins = 0;
 var numLosses = 0;
-var numChancesLeft = 10;
+var numChancesLeft = 0;
 var totalScore = 0;
 var category = [];
 var pointValue = 0;
@@ -12,13 +12,28 @@ var currentWord = "";
 var currentWordArray = [];
 var gameComplete = false;
 var guesses = ["'", "-"];
+var volume = true;
+var easySong = "https://www.youtube.com/embed/SfFpe2sJIbc?start=1&autoplay=1&loop=1"
+var mediumSong = "https://www.youtube.com/embed/woWYNof6VRo?start=12&autoplay=1&loop=1"
+var hardSong = "https://www.youtube.com/embed/AdQ3JDLlmPI?start=1&autoplay=1&loop=1"
+var currentSong = "";
 
 
 var loserContent = wordDisplay + "<h3>You Lose...</h3> <p>Press any key to continue.</p>"
 
+var changeSound = function() {
+	if (volume) {
+		document.getElementById("volumeButton").className = "glyphicon glyphicon-volume-off";
+		document.getElementById("music").src = currentSong + "&mute=1";
+	} else {
+		document.getElementById("volumeButton").className = "glyphicon glyphicon-volume-up";
+		document.getElementById("music").src = currentSong;
+	}
+	volume=!volume;
+}
+
 for(var i=0; i<alphabet.length; i++) {
 	alphabetDisplay = alphabetDisplay + ' <button id="' + alphabet[i] + '" onclick=keyPressed("' + alphabet[i] + '");>' + alphabet[i] + "</button>";
-	console.log(alphabetDisplay);
 }
 document.getElementById("usedLetters").innerHTML = alphabetDisplay;
 
@@ -118,7 +133,7 @@ var restart = function() {
 		totalScore = 0;
 		numWins = 0;
 		numLosses = 0;
-		numChancesLeft = 10;
+		numChancesLeft = maxNumChances;
 		score.textContent = totalScore;
 		scorePhone.textContent = totalScore;
 		wins.textContent = numWins;
@@ -144,6 +159,10 @@ var helpHide = function() {
 }
 
 var easyStart = function() {
+	maxNumChances = 10;
+	volume=!volume;
+	currentSong = easySong;
+	changeSound();
 	startScreen.style.visibility = "hidden";
 	category = sports;
 	pointValue = 5;
@@ -153,6 +172,10 @@ var easyStart = function() {
 }
 
 var mediumStart = function() {
+	maxNumChances=8;
+	volume=!volume;
+	currentSong = mediumSong;
+	changeSound();
 	startScreen.style.visibility = "hidden";
 	category = gaming;
 	pointValue = 10;
@@ -162,6 +185,10 @@ var mediumStart = function() {
 }
 
 var hardStart = function() {
+	maxNumChances=6;
+	volume=!volume;
+	currentSong = hardSong;
+	changeSound();
 	startScreen.style.visibility = "hidden";
 	category = hollywood;
 	pointValue = 20;
@@ -172,7 +199,7 @@ var hardStart = function() {
 
 var checkChangeLevel = function() {
 	changeLevel=false;
-	if (numChancesLeft === 10) {
+	if (numChancesLeft === maxNumChances) {
 		changeLevel = true;
 	}
 	else if (confirm("Are you sure you want to change the Category? You will lose the current game.")) {
@@ -207,7 +234,6 @@ var displayWord = function() {
 	currentWord = category[Math.floor(Math.random() * category.length)];
 	currentWordArray = currentWord.split('');
 	guesses = ["'","-"];
-	console.log(currentWord);
 	var wordDisplay = "<p>";
 	for(var i=0; i<currentWordArray.length; i++) {
 		if (guesses.includes(currentWordArray[i])) {
@@ -221,7 +247,6 @@ var displayWord = function() {
 		}
 	}
 	wordDisplay= wordDisplay + "</p>";
-	console.log(wordDisplay);
 	document.getElementById("wordDisplay").innerHTML = wordDisplay;
 	gameComplete=false;
 
@@ -230,7 +255,7 @@ var displayWord = function() {
 		document.getElementById(alphabet[i]).style.color = "white";
 		document.getElementById(alphabet[i]).style.textShadow = "";
 	}
-	numChancesLeft = 10;
+	numChancesLeft = maxNumChances;
 	wins.textContent = numWins;
 	wins.textContent = numWins;
 	losses.textContent = numLosses;

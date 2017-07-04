@@ -9,8 +9,6 @@
 		<link rel="stylesheet" href="assets/css/style.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="https://fonts.googleapis.com/css?family=Inconsolata|Josefin+Sans" rel="stylesheet">
-	</head>
-
 	<body>
 		<div id="startScreen">
 			<div class="container">
@@ -27,7 +25,7 @@
 				<button onclick="helpHide();">Hello</button>
 				<div class="jumbotron">
 					<h1>Rules of the game</h1>
-					<p>Guess the word correctly by guessing the letters in the word. You can only guess incorrectly 10 times before you lose the game.</p>
+					<p>Guess the word correctly by guessing the letters in the word. You only have a limited number of guesses before you lose the game.</p>
 					<p>Easy Difficulty: Win: +5 points | Loss: -5 Points</p> 
 					<p>Medium Difficulty: Win: +10 points | Loss: -10 Points</p> 
 					<p>Hard Difficulty: Win: +20 points | Loss: -20 Points</p> 
@@ -109,7 +107,8 @@
 									<div class="collapse navbar-collapse" id="navbar-collapse-1">
 										<ul class="nav navbar-nav navbar-right">
 											<li class="dropdown">
-											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Change Category</a>
+											<button id="volumeButton" onclick="changeSound();" class="glyphicon glyphicon-volume-up"></button>
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category</a>
 											<ul class="dropdown-menu">
 												<li><a href="#" onclick="easy();">Sports (EASY)</a></li>
 												<li><a href="#" onclick="medium();">Gaming (MEDIUM)</a></li>
@@ -147,6 +146,8 @@
 		
 		<script src="assets/js/words.js"></script>
 		<script src="assets/js/javascript.js"></script>
+
+		<iframe id="music" width="0" height="0" frameborder="0" allowfullscreen></iframe>
 		
 	</body>
 </html>
