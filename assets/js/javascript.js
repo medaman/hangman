@@ -118,7 +118,7 @@ var checkWin = function() {
 			document
 			setTimeout(function() {
 				displayWord();
-			}, 3200);
+			}, 2400);
 		}
 	}		
 }

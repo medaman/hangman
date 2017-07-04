@@ -6,6 +6,7 @@
 body {
 	background:black;
 	padding-top:2vh;
+	overflow:hidden;
 }
 
 h1 {
@@ -22,6 +23,13 @@ nav li, nav a{
 
 nav p {
 	margin-left:4%;
+}
+
+.mainTitle {
+	font-family: 'Homemade Apple', cursive;
+	-ms-transform: rotate(-10deg); /* IE 9 */
+	-webkit-transform: rotate(-10deg); /* Chrome, Safari, Opera */
+	transform: rotate(-10deg);
 }
 
 .helpButton:hover {
@@ -158,7 +166,7 @@ Help Screen Styles
 	position:fixed;
 	top:0;
 	left:0;
-	z-index: -1;
+	z-index: 20;
 	background-color:white;
 }
 

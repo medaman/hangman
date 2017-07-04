@@ -8,11 +8,11 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="assets/css/style.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="https://fonts.googleapis.com/css?family=Inconsolata|Josefin+Sans" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Inconsolata|Homemade+Apple" rel="stylesheet">
 	<body>
 		<div id="startScreen">
 			<div class="container">
-					<h1>HANGMAN</h1>
+					<h1 class="mainTitle">Hangman</h1>
 					<h2>Start Game - Pick a Category</h2>
 					<button onclick="easyStart();">Sports - Easy</button>
 					<button onclick="mediumStart();">Gaming - Medium</button>
@@ -22,13 +22,13 @@
 		</div>
 		<div id="helpScreen">
 			<div class="container">
-				<button onclick="helpHide();">Hello</button>
+				<button onclick="helpHide();"></button>
 				<div class="jumbotron">
 					<h1>Rules of the game</h1>
 					<p>Guess the word correctly by guessing the letters in the word. You only have a limited number of guesses before you lose the game.</p>
-					<p>Easy Difficulty: Win: +5 points | Loss: -5 Points</p> 
-					<p>Medium Difficulty: Win: +10 points | Loss: -10 Points</p> 
-					<p>Hard Difficulty: Win: +20 points | Loss: -20 Points</p> 
+					<p>Easy Difficulty: Win: +5 points | Loss: -5 Points | 10 Incorrect Guesses</p> 
+					<p>Medium Difficulty: Win: +10 points | Loss: -10 Points | 8 Incorrect Guesses</p> 
+					<p>Hard Difficulty: Win: +20 points | Loss: -20 Points | 6 Incorrect Guesses</p> 
 					<p>Restarting the Game will reset all stats</p>
 				</div>
 			</div>
@@ -90,9 +90,7 @@
 				<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 sectionBorder">
 					<div class="row">
 						<div class="col-xs-4">
-							<h1>
-								HANGMAN
-							</h1>
+							<h1 class="mainTitle">Hangman</h1>
 						</div>
 						<div class="col-xs-8">
 							<nav class="navbar">
@@ -110,9 +108,9 @@
 											<button id="volumeButton" onclick="changeSound();" class="glyphicon glyphicon-volume-up"></button>
 											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category</a>
 											<ul class="dropdown-menu">
-												<li><a href="#" onclick="easy();">Sports (EASY)</a></li>
-												<li><a href="#" onclick="medium();">Gaming (MEDIUM)</a></li>
-												<li><a href="#" onclick="hard();">Hollywood Movies (HARD)</a></li>
+												<li id="easyGame"><a href="#" onclick="easy();">Sports (EASY)</a></li>
+												<li id="mediumGame"><a href="#" onclick="medium();">Gaming (MEDIUM)</a></li>
+												<li id="hardGame"><a href="#" onclick="hard();">Hollywood Movies (HARD)</a></li>
 											</ul>
 											</li>
 											<li><a class="helpButton" href="#" onclick="help();">Help</a></li>
