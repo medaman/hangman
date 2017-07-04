@@ -3,7 +3,7 @@
 }
 
 body {
-	background:black;
+	background-image: url("../images/background.jpg");
 	padding-top:2vh;
 	overflow:hidden;
 }
@@ -42,29 +42,26 @@ nav p {
 	cursor: help;
 }
 
-#usedLetters, #usedLettersPhone {
+#usedLetters {
 	text-align: center;
 }
 
-#usedLetters button, #usedLettersPhone button, #scoreboard {
+#usedLetters button, #scoreboard {
 	font-family: 'Inconsolata';
 	display:inline;
-	margin: 0 .15em;
 	color: white;
 	background: black;
 	border:0px;
 }
 
 #usedLetters button {
-	font-size:3vw;
-}
-
-#usedLettersPhone button {
-	font-size:8vw;
+	font-size:5vw;
+	margin: 0 1%;
 }
 
 #scoreboard {
 	font-size:2.4vw;
+	margin: 0 10px;	
 }
 
 #level {

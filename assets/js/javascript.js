@@ -36,7 +36,6 @@ for(var i=0; i<alphabet.length; i++) {
 	alphabetDisplay = alphabetDisplay + ' <button id="' + alphabet[i] + '" onclick=keyPressed("' + alphabet[i] + '");>' + alphabet[i] + "</button>";
 }
 document.getElementById("usedLetters").innerHTML = alphabetDisplay;
-document.getElementById("usedLettersPhone").innerHTML = alphabetDisplay;
 
 document.onkeyup = function(event) {
 	var buttonPress = event.key.toUpperCase();
