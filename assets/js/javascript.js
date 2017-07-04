@@ -175,7 +175,7 @@ var easyStart = function() {
 }
 
 var mediumStart = function() {
-	document.getElementById("level").style.color = "yellow";
+	document.getElementById("level").style.color = "gold";
 	maxNumChances=8;
 	volume=!volume;
 	currentSong = mediumSong;

@@ -32,6 +32,18 @@ nav p {
 	margin-left:4%;
 }
 
+#easyGame a{
+	color:green;	
+}
+
+#mediumGame a{
+	color:gold;	
+}
+
+#hardGame a{
+	color:red;	
+}
+
 .mainTitle {
 	font-family: 'Homemade Apple', cursive;
 	text-decoration: underline white;
