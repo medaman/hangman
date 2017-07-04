@@ -15,7 +15,7 @@ var guesses = ["'", "-"];
 var volume = true;
 var easySong = "https://www.youtube.com/embed/SfFpe2sJIbc?start=1&autoplay=1&loop=1"
 var mediumSong = "https://www.youtube.com/embed/woWYNof6VRo?start=12&autoplay=1&loop=1"
-var hardSong = "https://www.youtube.com/embed/AdQ3JDLlmPI?start=1&autoplay=1&loop=1"
+var hardSong = "https://www.youtube.com/embed/foYFiqjbPTg?start=1&autoplay=1&loop=1"
 var currentSong = "";
 
 

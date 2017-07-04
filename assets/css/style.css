@@ -56,7 +56,9 @@ nav p {
 
 #usedLetters button {
 	font-size:5vw;
-	margin: 0 1%;
+	margin: 0 2%;
+	padding:0px;
+	line-height: 1;
 }
 
 #scoreboard {
