@@ -3,7 +3,7 @@
 }
 
 body {
-	background-image: url("http://www.designbolts.com/wp-content/uploads/2012/11/3px-tile-tiny-dark-square-tiles-seamless-pattern.jpg");
+	background-image: url("../images/background.jpg");
 	background-size: contain; 
 	padding-top:2vh;
 	overflow:hidden;
@@ -131,7 +131,7 @@ Start Screen Styles
 #startScreen {
 	width:100%;
 	height: 100vh;
-	background-image: url("http://www.designbolts.com/wp-content/uploads/2012/11/3px-tile-tiny-dark-square-tiles-seamless-pattern.jpg");
+	background-image: url("../images/background.jpg");
 	background-size: contain;
 	position:fixed;
 	top:0;
