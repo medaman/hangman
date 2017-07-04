@@ -46,8 +46,9 @@ var keyPressed = function(press) {
 
 	var correct = false;
 	wordDisplay = "<p>"
-	
-	if(alphabet.includes(press)) {	
+	console.log(press);
+	console.log(alphabet.includes(press));
+	if(alphabet.includes(press)) {
 		for(var i=0; i<currentWordArray.length; i++) {
 			if (guesses.includes(currentWordArray[i])) {
 				wordDisplay += currentWordArray[i];
@@ -59,6 +60,7 @@ var keyPressed = function(press) {
 				wordDisplay += press;
 				correct=true;
 				guesses.push(press);
+				document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(14,181,53,0.5)";
 			}
 			else {
 				wordDisplay += "_"
@@ -69,12 +71,12 @@ var keyPressed = function(press) {
 		if (!correct) {
 				mistakes++;
 				numChancesLeft--;
+				document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(196,23,23,0.5)";
 		}
 
 		document.getElementById("wordDisplay").innerHTML = wordDisplay;
 		document.getElementById(press).style.disabled = "true";
 		document.getElementById(press).style.color = "transparent";
-		document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(255,255,255,0.5)";
 		document.getElementById("hangman").src="assets/images/" + mistakes + ".jpg";
 		chancesLeft.textContent = numChancesLeft;
 		chancesLeftPhone.textContent = numChancesLeft;
@@ -87,13 +89,12 @@ var keyPressed = function(press) {
 
 var checkWin = function() {
 	var isWin = true;
-	if (numChancesLeft === 0) {
+	if (numChancesLeft <= 0) {
+		alphabet=[];
 		totalScore -= pointValue;
 		numLosses++;
 		losses.textContent = numLosses;
 		lossesPhone.textContent = numLosses;
-		score.textContent = totalScore;
-		scorePhone.textContent = totalScore;
 		document.getElementById("wordDisplay").innerHTML = "<p>" + currentWord + "</p> <h4>You Lose...New Game starting soon...";
 		document
 		setTimeout(function() {
@@ -107,20 +108,21 @@ var checkWin = function() {
 			}
 		}
 		if (isWin) {
+			alphabet=[];
 			wordDisplay.textContent = currentWord;
 			totalScore += pointValue;
 			numWins++;
 			wins.textContent = numWins;
 			winsPhone.textContent = numWins;
-			score.textContent = totalScore;
-			scorePhone.textContent = totalScore;
 			document.getElementById("wordDisplay").innerHTML = wordDisplay + "<h4>You Win! New Game starting soon...";
 			document
 			setTimeout(function() {
 				displayWord();
 			}, 2400);
 		}
-	}		
+	}	
+	displayScore();
+	scorePhone.textContent = totalScore;	
 }
 
 var restart = function() {
@@ -134,7 +136,7 @@ var restart = function() {
 		numWins = 0;
 		numLosses = 0;
 		numChancesLeft = maxNumChances;
-		score.textContent = totalScore;
+		displayScore();
 		scorePhone.textContent = totalScore;
 		wins.textContent = numWins;
 		winsPhone.textContent = numWins;
@@ -159,6 +161,7 @@ var helpHide = function() {
 }
 
 var easyStart = function() {
+	document.getElementById("level").style.color = "lightgreen";
 	maxNumChances = 10;
 	volume=!volume;
 	currentSong = easySong;
@@ -172,6 +175,7 @@ var easyStart = function() {
 }
 
 var mediumStart = function() {
+	document.getElementById("level").style.color = "yellow";
 	maxNumChances=8;
 	volume=!volume;
 	currentSong = mediumSong;
@@ -185,6 +189,7 @@ var mediumStart = function() {
 }
 
 var hardStart = function() {
+	document.getElementById("level").style.color = "red";
 	maxNumChances=6;
 	volume=!volume;
 	currentSong = hardSong;
@@ -206,7 +211,7 @@ var checkChangeLevel = function() {
 		numLosses++;
 		totalScore -= pointValue;
 		losses.textContent = numLosses;
-		score.textContent = totalScore;
+		displayScore();
 		changeLevel = true;
 	}
 }
@@ -268,3 +273,16 @@ var displayWord = function() {
 	document.getElementById("hangman").src="assets/images/0.jpg";
 	isWin = false;
 }
+
+var displayScore = function() {
+		score.textContent = totalScore;
+		if (totalScore>0) {
+			document.getElementById("score").style.color = "green";
+		}
+		else if (totalScore<0) {
+			document.getElementById("score").style.color = "red";
+		}
+		else {
+			document.getElementById("score").style.color = "black";	
+		}
+	}
