@@ -1,6 +1,7 @@
 var alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split('');
 var alphabetDisplay = "";
 var changeLevel = false;
+var gameLevel = ""
 var mistakes = 0;
 var numWins = 0;
 var numLosses = 0;
@@ -13,10 +14,12 @@ var currentWordArray = [];
 var gameComplete = false;
 var guesses = ["'", "-"];
 var volume = true;
-var easySong = "https://www.youtube.com/embed/SfFpe2sJIbc?start=1&autoplay=1&loop=1"
-var mediumSong = "https://www.youtube.com/embed/woWYNof6VRo?start=12&autoplay=1&loop=1"
-var hardSong = "https://www.youtube.com/embed/foYFiqjbPTg?start=1&autoplay=1&loop=1"
+var easySong = "https://www.youtube.com/embed/Nw3Lxf9UtQ4?autoplay=1&loop=1"
+var mediumSong = "https://www.youtube.com/embed/woWYNof6VRo?autoplay=1&loop=1"
+var hardSong = "https://www.youtube.com/embed/foYFiqjbPTg?autoplay=1&loop=1"
 var currentSong = "";
+var winAudio = new Audio("assets/sounds/win.mp3");
+var lossAudio = new Audio("assets/sounds/loss.mp3");
 
 
 var loserContent = wordDisplay + "<h3>You Lose...</h3> <p>Press any key to continue.</p>"
@@ -25,9 +28,13 @@ var changeSound = function() {
 	if (volume) {
 		document.getElementById("volumeButton").className = "glyphicon glyphicon-volume-off";
 		document.getElementById("music").src = currentSong + "&mute=1";
+		winAudio = new Audio("");
+		lossAudio = new Audio("");
 	} else {
 		document.getElementById("volumeButton").className = "glyphicon glyphicon-volume-up";
 		document.getElementById("music").src = currentSong;
+		winAudio = new Audio("assets/sounds/win.mp3")
+		lossAudio = new Audio("assets/sounds/loss.mp3")
 	}
 	volume=!volume;
 }
@@ -77,7 +84,7 @@ var keyPressed = function(press) {
 		document.getElementById("wordDisplay").innerHTML = wordDisplay;
 		document.getElementById(press).style.disabled = "true";
 		document.getElementById(press).style.color = "transparent";
-		document.getElementById("hangman").src="assets/images/" + mistakes + ".jpg";
+		document.getElementById("hangman").src="assets/images/" + gameLevel + "/" + mistakes + ".png";
 		chancesLeft.textContent = numChancesLeft;
 		chancesLeftPhone.textContent = numChancesLeft;
 		alphabet[alphabet.indexOf(press)] = 0;
@@ -95,9 +102,12 @@ var checkWin = function() {
 		numLosses++;
 		losses.textContent = numLosses;
 		lossesPhone.textContent = numLosses;
+		document.getElementById("music").src = currentSong + "&mute=1";
+		lossAudio.play();
 		document.getElementById("wordDisplay").innerHTML = "<p>" + currentWord + "</p> <h4>You Lose...New Game starting soon...";
 		document
 		setTimeout(function() {
+			document.getElementById("music").src = currentSong;
 			displayWord();
 		}, 3200);
 	}
@@ -114,11 +124,14 @@ var checkWin = function() {
 			numWins++;
 			wins.textContent = numWins;
 			winsPhone.textContent = numWins;
+			document.getElementById("music").src = currentSong + "&mute=1";
+			winAudio.play();
 			document.getElementById("wordDisplay").innerHTML = wordDisplay + "<h4>You Win! New Game starting soon...";
 			document
 			setTimeout(function() {
 				displayWord();
-			}, 2400);
+				document.getElementById("music").src = currentSong;
+			}, 1600);
 		}
 	}	
 	displayScore();
@@ -129,9 +142,10 @@ var restart = function() {
 	if (confirm("Are you sure you would like to restart the game? All stats will reset.")) {
 		alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split('');
 		for(var i=0; i<alphabet.length; i++) {
-			document.getElementById(alphabet[i]).style.color = "white";
+			document.getElementById(alphabet[i]).style.color = "black";
 			document.getElementById(alphabet[i]).style.textShadow = "";
 		}
+		document.getElementById("music").src = currentSong + "&mute=1";
 		totalScore = 0;
 		numWins = 0;
 		numLosses = 0;
@@ -147,8 +161,8 @@ var restart = function() {
 		lastLetter.textContent = "-";
 		lastLetterPhone.textContent = "-";
 		mistakes = 0;
-		document.getElementById("hangman").src="assets/images/0.jpg";
-		displayWord();
+		document.getElementById("hangman").src="assets/images/" + gameLevel + "/0.png";
+		startScreen.style.visibility = "visible";
 	}
 }
 
@@ -161,7 +175,9 @@ var helpHide = function() {
 }
 
 var easyStart = function() {
-	document.getElementById("level").style.color = "lightgreen";
+	gameLevel="easy";
+	document.body.style.backgroundImage = "url('assets/images/easy.png')";
+	document.getElementById("level").style.color = "green";
 	maxNumChances = 10;
 	volume=!volume;
 	currentSong = easySong;
@@ -175,6 +191,8 @@ var easyStart = function() {
 }
 
 var mediumStart = function() {
+	gameLevel="medium";
+	document.body.style.backgroundImage = "url('assets/images/medium.png')";
 	document.getElementById("level").style.color = "gold";
 	maxNumChances=8;
 	volume=!volume;
@@ -189,6 +207,8 @@ var mediumStart = function() {
 }
 
 var hardStart = function() {
+	gameLevel="hard";
+	document.body.style.backgroundImage = "url('assets/images/hard.png')";
 	document.getElementById("level").style.color = "red";
 	maxNumChances=6;
 	volume=!volume;
@@ -257,7 +277,7 @@ var displayWord = function() {
 
 	alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split('');
 	for(var i=0; i<alphabet.length; i++) {
-		document.getElementById(alphabet[i]).style.color = "white";
+		document.getElementById(alphabet[i]).style.color = "black";
 		document.getElementById(alphabet[i]).style.textShadow = "";
 	}
 	numChancesLeft = maxNumChances;
@@ -270,7 +290,7 @@ var displayWord = function() {
 	lastLetter.textContent = "-";
 	lastLetterPhone.textContent = "-";
 	mistakes = 0;
-	document.getElementById("hangman").src="assets/images/0.jpg";
+	document.getElementById("hangman").src="assets/images/" + gameLevel + "/0.png";
 	isWin = false;
 }
 
@@ -283,6 +303,6 @@ var displayScore = function() {
 			document.getElementById("score").style.color = "red";
 		}
 		else {
-			document.getElementById("score").style.color = "black";	
+			document.getElementById("score").style.color = "white";	
 		}
 	}
