@@ -13,7 +13,7 @@ h1, h2 {
 }
 
 h1 {
-	font-size:7.5vh;
+	font-size:7.5gitvh;
 	margin-bottom:5vh;
 }
 
@@ -140,7 +140,6 @@ Start Screen Styles
 	width:100%;
 	height: 100vh;
 	background-image: url("../images/background.png");
-	background-size: contain;
 	position:fixed;
 	top:0;
 	left:0;
