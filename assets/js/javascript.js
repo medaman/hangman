@@ -24,7 +24,7 @@ var lossAudio = new Audio("assets/sounds/loss.mp3");
 
 var loserContent = wordDisplay + "<h3>You Lose...</h3> <p>Press any key to continue.</p>"
 
-var changeSound = function() {
+function changeSound() {
 	if (volume) {
 		document.getElementById("volumeButton").className = "glyphicon glyphicon-volume-off";
 		document.getElementById("music").src = currentSong + "&mute=1";
@@ -49,8 +49,7 @@ document.onkeyup = function(event) {
 	keyPressed(buttonPress);
 }
 
-var keyPressed = function(press) {
-
+function keyPressed(press) {
 	var correct = false;
 	wordDisplay = "<p>"
 	console.log(press);
@@ -94,7 +93,7 @@ var keyPressed = function(press) {
 	}
 }
 
-var checkWin = function() {
+function checkWin() {
 	var isWin = true;
 	if (numChancesLeft <= 0) {
 		alphabet=[];
@@ -138,7 +137,7 @@ var checkWin = function() {
 	scorePhone.textContent = totalScore;	
 }
 
-var restart = function() {
+function restart() {
 	if (confirm("Are you sure you would like to restart the game? All stats will reset.")) {
 		alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split('');
 		for(var i=0; i<alphabet.length; i++) {
@@ -166,15 +165,15 @@ var restart = function() {
 	}
 }
 
-var help = function() {
+function help() {
 	helpScreen.style.visibility = "visible";
 }
 
-var helpHide = function() {
+function helpHide() {
 	helpScreen.style.visibility = "hidden";
 }
 
-var easyStart = function() {
+function easyStart() {
 	gameLevel="easy";
 	document.body.style.backgroundImage = "url('assets/images/easy.png')";
 	document.getElementById("level").style.color = "green";
@@ -190,7 +189,7 @@ var easyStart = function() {
 	displayWord();
 }
 
-var mediumStart = function() {
+function mediumStart() {
 	gameLevel="medium";
 	document.body.style.backgroundImage = "url('assets/images/medium.png')";
 	document.getElementById("level").style.color = "gold";
@@ -206,7 +205,7 @@ var mediumStart = function() {
 	displayWord();
 }
 
-var hardStart = function() {
+function hardStart() {
 	gameLevel="hard";
 	document.body.style.backgroundImage = "url('assets/images/hard.png')";
 	document.getElementById("level").style.color = "red";
@@ -222,7 +221,7 @@ var hardStart = function() {
 	displayWord();
 }
 
-var checkChangeLevel = function() {
+function checkChangeLevel() {
 	changeLevel=false;
 	if (numChancesLeft === maxNumChances) {
 		changeLevel = true;
@@ -236,26 +235,26 @@ var checkChangeLevel = function() {
 	}
 }
 
-var easy = function() {
+function easy() {
 	checkChangeLevel();
 	if (changeLevel) {
 		easyStart();
 	}
 }
-var medium = function() {
+function medium() {
 	checkChangeLevel();
 	if (changeLevel) {
 		mediumStart();
 	}
 }
-var hard = function() {
+function hard() {
 	checkChangeLevel();
 	if (changeLevel) {
 		hardStart();
 	}
 }
 
-var displayWord = function() {
+function displayWord() {
 	currentWord = category[Math.floor(Math.random() * category.length)];
 	currentWordArray = currentWord.split('');
 	guesses = ["'","-"];
@@ -294,7 +293,7 @@ var displayWord = function() {
 	isWin = false;
 }
 
-var displayScore = function() {
+function displayScore() {
 		score.textContent = totalScore;
 		if (totalScore>0) {
 			document.getElementById("score").style.color = "green";
