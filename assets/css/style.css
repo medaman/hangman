@@ -81,6 +81,7 @@ nav p {
 
 #level {
 	text-decoration: underline;
+	text-transform: capitalize;
 }
 
 .sectionBorder {
@@ -168,7 +169,7 @@ Help Screen Styles
 	position:fixed;
 	top:0;
 	left:0;
-	z-index: 10;
+	z-index: 50;
 	visibility: hidden;
 }
 

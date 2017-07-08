@@ -1,71 +1,122 @@
-var alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split('');
-var alphabetDisplay = "";
-var changeLevel = false;
-var gameLevel = ""
-var mistakes = 0;
-var numWins = 0;
-var numLosses = 0;
-var numChancesLeft = 0;
-var totalScore = 0;
-var category = [];
-var pointValue = 0;
-var currentWord = "";
-var currentWordArray = [];
-var gameComplete = false;
-var guesses = ["'", "-"];
-var volume = true;
-var easySong = "https://www.youtube.com/embed/Nw3Lxf9UtQ4?autoplay=1&loop=1"
-var mediumSong = "https://www.youtube.com/embed/woWYNof6VRo?autoplay=1&loop=1"
-var hardSong = "https://www.youtube.com/embed/foYFiqjbPTg?autoplay=1&loop=1"
-var currentSong = "";
-var winAudio = new Audio("assets/sounds/win.mp3");
-var lossAudio = new Audio("assets/sounds/loss.mp3");
+/************************************************************************************
+*************************************************************************************
+                      _  _           _____        _    _    _                    
+     /\              | |(_)         / ____|      | |  | |  (_)                   
+    /  \   _   _   __| | _   ___   | (___    ___ | |_ | |_  _  _ __    __ _  ___ 
+   / /\ \ | | | | / _` || | / _ \   \___ \  / _ \| __|| __|| || '_ \  / _` |/ __|
+  / ____ \| |_| || (_| || || (_) |  ____) ||  __/| |_ | |_ | || | | || (_| |\__ \
+ /_/    \_\\__,_| \__,_||_| \___/  |_____/  \___| \__| \__||_||_| |_| \__, ||___/
+                                                                       __/ |     
+                                                                      |___/      
+*************************************************************************************
+*************************************************************************************/
 
+var allAudio = {
+	volume: true,
+	win: new Audio("assets/sounds/win.mp3"),
+	loss: new Audio("assets/sounds/loss.mp3"),
+	easy: new Audio("assets/sounds/easy.mp3"),
+	medium: new Audio("assets/sounds/medium.mp3"),
+	hard: new Audio("assets/sounds/hard.mp3")
+};
+allAudio.easy.loop = true;
+allAudio.medium.loop = true;
+allAudio.hard.loop = true;
 
-var loserContent = wordDisplay + "<h3>You Lose...</h3> <p>Press any key to continue.</p>"
+function muteButton() {
+	if (allAudio.volume) {
+		document.getElementById("volumeButton").className = "glyphicon glyphicon-volume-off";
+		allAudio.easy.muted = true;
+		allAudio.medium.muted = true;
+		allAudio.hard.muted = true;
+		allAudio.win.muted = true;
+		allAudio.loss.muted = true;
+	}
+	else {
+		document.getElementById("volumeButton").className = "glyphicon glyphicon-volume-up";
+		allAudio.easy.muted = false;
+		allAudio.medium.muted = false;
+		allAudio.hard.muted = false;
+		allAudio.win.muted = false;
+		allAudio.loss.muted = false;	
+	}
+	allAudio.volume = !allAudio.volume;
+}
 
 function changeSound() {
-	if (volume) {
-		document.getElementById("volumeButton").className = "glyphicon glyphicon-volume-off";
-		document.getElementById("music").src = currentSong + "&mute=1";
-		winAudio = new Audio("");
-		lossAudio = new Audio("");
-	} else {
-		document.getElementById("volumeButton").className = "glyphicon glyphicon-volume-up";
-		document.getElementById("music").src = currentSong;
-		winAudio = new Audio("assets/sounds/win.mp3")
-		lossAudio = new Audio("assets/sounds/loss.mp3")
-	}
-	volume=!volume;
+	allAudio.easy.pause();
+	allAudio.medium.pause();
+	allAudio.hard.pause();
+	allAudio[hangmanGame.gameLevel].load();
+	allAudio[hangmanGame.gameLevel].play();	
+}
+
+
+/************************************************************************************
+*************************************************************************************
+   _____                            _____        _    _    _                    
+  / ____|                          / ____|      | |  | |  (_)                   
+ | |  __   __ _  _ __ ___    ___  | (___    ___ | |_ | |_  _  _ __    __ _  ___ 
+ | | |_ | / _` || '_ ` _ \  / _ \  \___ \  / _ \| __|| __|| || '_ \  / _` |/ __|
+ | |__| || (_| || | | | | ||  __/  ____) ||  __/| |_ | |_ | || | | || (_| |\__ \
+  \_____| \__,_||_| |_| |_| \___| |_____/  \___| \__| \__||_||_| |_| \__, ||___/
+                                                                      __/ |     
+                                                                     |___/      
+*************************************************************************************
+*************************************************************************************/
+
+
+var alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split('');
+var alphabetDisplay = "";
+
+var hangmanGame = {
+	gameLevel: "",
+	mistakes: 0,
+	numWins: 0,
+	numLosses: 0,
+	maxNumChances: 0,
+	numChancesLeft: 0,
+	totalScore: 0,
+	pointValue: 0,
+	currentWord: "",
+	currentWordArray: [],
+	gameComplete: false,
+	guesses: ["'", "-"]
 }
 
 for(var i=0; i<alphabet.length; i++) {
 	alphabetDisplay = alphabetDisplay + ' <button id="' + alphabet[i] + '" onclick=keyPressed("' + alphabet[i] + '");>' + alphabet[i] + "</button>";
 }
 document.getElementById("usedLetters").innerHTML = alphabetDisplay;
+alphabet = [];
 
 document.onkeyup = function(event) {
-	var buttonPress = event.key.toUpperCase();
-	keyPressed(buttonPress);
+	keyPressed(event.key.toUpperCase());
 }
 
-function keyPressed(press) {
-	var correct = false;
-	wordDisplay = "<p>"
-	console.log(press);
-	console.log(alphabet.includes(press));
+function keyPressed(press) {	
 	if(alphabet.includes(press)) {
-		for(var i=0; i<currentWordArray.length; i++) {
-			if (guesses.includes(currentWordArray[i])) {
-				wordDisplay += currentWordArray[i];
+		updateCurrentWord(press);
+		displayScore();
+		alphabet[alphabet.indexOf(press)] = 0;
+		lastLetter.textContent = press;
+	}
+}
+
+function updateCurrentWord(press) {
+	var correct = false;
+	var wordDisplay = "<p>"
+	for(var i=0; i<hangmanGame.currentWordArray.length; i++) {
+			if (hangmanGame.guesses.includes(hangmanGame.currentWordArray[i])) {
+				wordDisplay += hangmanGame.currentWordArray[i];
 			}
-			else if (currentWordArray[i] === " " ) {
+			else if (hangmanGame.currentWordArray[i] === " " ) {
 				wordDisplay += "</p> <p>";
 			}
-			else if (currentWordArray[i] === press) {
+			else if (hangmanGame.currentWordArray[i] === press) {
 				wordDisplay += press;
 				correct=true;
-				guesses.push(press);
+				hangmanGame.guesses.push(press);
 				document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(14,181,53,0.5)";
 			}
 			else {
@@ -75,66 +126,152 @@ function keyPressed(press) {
 		wordDisplay += "</p>"
 
 		if (!correct) {
-				mistakes++;
-				numChancesLeft--;
+				hangmanGame.mistakes++;
+				hangmanGame.numChancesLeft--;
 				document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(196,23,23,0.5)";
 		}
 
 		document.getElementById("wordDisplay").innerHTML = wordDisplay;
-		document.getElementById(press).style.disabled = "true";
-		document.getElementById(press).style.color = "transparent";
-		document.getElementById("hangman").src="assets/images/" + gameLevel + "/" + mistakes + ".png";
-		chancesLeft.textContent = numChancesLeft;
-		chancesLeftPhone.textContent = numChancesLeft;
-		alphabet[alphabet.indexOf(press)] = 0;
-		lastLetter.textContent = press;
+		checkWin(wordDisplay);
 
-		checkWin();
-	}
+		document.getElementById(press).style.color = "transparent";
+		document.getElementById("hangman").src="assets/images/" + hangmanGame.gameLevel + "/" + hangmanGame.mistakes + ".png";
 }
 
-function checkWin() {
+function checkWin(display) {
 	var isWin = true;
-	if (numChancesLeft <= 0) {
+	if (hangmanGame.numChancesLeft <= 0) {
 		alphabet=[];
-		totalScore -= pointValue;
-		numLosses++;
-		losses.textContent = numLosses;
-		lossesPhone.textContent = numLosses;
-		document.getElementById("music").src = currentSong + "&mute=1";
-		lossAudio.play();
-		document.getElementById("wordDisplay").innerHTML = "<p>" + currentWord + "</p> <h4>You Lose...New Game starting soon...";
-		document
+		hangmanGame.totalScore -= hangmanGame.pointValue;
+		hangmanGame.numLosses++;
+		allAudio[hangmanGame.gameLevel].pause();
+		allAudio.loss.play();
+		document.getElementById("wordDisplay").innerHTML = "<p>" + hangmanGame.currentWord + "</p> <h4>You Lose...New Game starting soon...";
 		setTimeout(function() {
-			document.getElementById("music").src = currentSong;
-			displayWord();
-		}, 3200);
+			allAudio[hangmanGame.gameLevel].play();
+			displayNewWord();
+		}, allAudio.loss.duration*1000);
 	}
 	else {
-		for(var i=0; i<currentWordArray.length; i++) {
-			if ((!(guesses.includes(currentWordArray[i]))) && (!(currentWordArray[i]===" "))) {
+		for(var i=0; i<hangmanGame.currentWordArray.length; i++) {
+			if ((!(hangmanGame.guesses.includes(hangmanGame.currentWordArray[i]))) && (!(hangmanGame.currentWordArray[i]===" "))) {
 				isWin = false;
 			}
 		}
 		if (isWin) {
 			alphabet=[];
-			wordDisplay.textContent = currentWord;
-			totalScore += pointValue;
-			numWins++;
-			wins.textContent = numWins;
-			winsPhone.textContent = numWins;
-			document.getElementById("music").src = currentSong + "&mute=1";
-			winAudio.play();
-			document.getElementById("wordDisplay").innerHTML = wordDisplay + "<h4>You Win! New Game starting soon...";
-			document
+			hangmanGame.totalScore += hangmanGame.pointValue;
+			hangmanGame.numWins++;
+			allAudio[hangmanGame.gameLevel].pause();
+			allAudio.win.play();
+			document.getElementById("wordDisplay").innerHTML = "<p>" + display + "</p> <h4>You Win! New Game starting soon...";
 			setTimeout(function() {
-				displayWord();
-				document.getElementById("music").src = currentSong;
-			}, 1600);
+				allAudio[hangmanGame.gameLevel].play();
+				displayNewWord();
+			}, allAudio.win.duration*1000);
 		}
 	}	
+}
+
+function displayNewWord() {
+	hangmanGame.currentWord = lists[hangmanGame.gameLevel][Math.floor(Math.random() * lists[hangmanGame.gameLevel].length)];
+	hangmanGame.currentWordArray = hangmanGame.currentWord.split('');
+	hangmanGame.guesses = ["'","-"];
+	var wordDisplay = "<p>";
+	for(var i=0; i<hangmanGame.currentWordArray.length; i++) {
+		if (hangmanGame.guesses.includes(hangmanGame.currentWordArray[i])) {
+			wordDisplay += hangmanGame.currentWordArray[i];
+		}
+		else if (hangmanGame.currentWordArray[i] === " " ) {
+			wordDisplay += "</p> <p>";
+		}
+		else {
+			wordDisplay += "_";
+		}
+	}
+	wordDisplay= wordDisplay + "</p>";
+	document.getElementById("wordDisplay").innerHTML = wordDisplay;
+	hangmanGame.gameComplete=false;
+
+	alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split('');
+	for(var i=0; i<alphabet.length; i++) {
+		document.getElementById(alphabet[i]).style.color = "black";
+		document.getElementById(alphabet[i]).style.textShadow = "";
+	}
+	hangmanGame.numChancesLeft = hangmanGame.maxNumChances;
 	displayScore();
-	scorePhone.textContent = totalScore;	
+	lastLetter.textContent = "-";
+	lastLetterPhone.textContent = "-";
+	hangmanGame.mistakes = 0;
+	document.getElementById("hangman").src="assets/images/" + hangmanGame.gameLevel + "/0.png";
+	isWin = false;
+}
+
+function displayScore() {
+		wins.textContent = hangmanGame.numWins;
+		winsPhone.textContent = hangmanGame.numWins;
+		losses.textContent = hangmanGame.numLosses;
+		lossesPhone.textContent = hangmanGame.numLosses;
+		score.textContent = hangmanGame.totalScore;
+		scorePhone.textContent = hangmanGame.totalScore;
+		chancesLeft.textContent = hangmanGame.numChancesLeft;
+		chancesLeftPhone.textContent = hangmanGame.numChancesLeft;
+		if (hangmanGame.totalScore>0) {
+			document.getElementById("score").style.color = "green";
+		}
+		else if (hangmanGame.totalScore<0) {
+			document.getElementById("score").style.color = "red";
+		}
+		else {
+			document.getElementById("score").style.color = "white";	
+		}
+	}
+
+function changeLevel(newLevel) {
+	if (checkChangeLevel()) {
+		startGame(newLevel);
+	}
+}
+
+function startGame(chosenLevel) {
+	hangmanGame.gameLevel=chosenLevel;
+	if (chosenLevel === "easy") {
+		document.getElementById("level").style.color = "green";
+		hangmanGame.maxNumChances = 10;
+		hangmanGame.pointValue = 5;
+	} else if (chosenLevel === "medium") {
+		document.getElementById("level").style.color = "gold";
+		hangmanGame.maxNumChances=8;
+		hangmanGame.pointValue = 10;
+	} else {
+		document.getElementById("level").style.color = "red";
+		hangmanGame.maxNumChances=6;
+		hangmanGame.pointValue = 20;
+	}
+	gameStart();
+}
+
+function gameStart() {
+	changeSound();
+	startScreen.style.visibility = "hidden";
+	document.body.style.backgroundImage = "url('assets/images/" + hangmanGame.gameLevel + ".png')";
+	level.textContent = hangmanGame.gameLevel;
+	displayNewWord();
+}
+
+function checkChangeLevel() {
+	if (hangmanGame.numChancesLeft === hangmanGame.maxNumChances) {
+		return true;
+	}
+	else if (confirm("Are you sure you want to change the category? You will lose the current game.")) {
+		hangmanGame.numLosses++;
+		hangmanGame.totalScore -= hangmanGame.pointValue;
+		displayScore();
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 function restart() {
@@ -144,23 +281,15 @@ function restart() {
 			document.getElementById(alphabet[i]).style.color = "black";
 			document.getElementById(alphabet[i]).style.textShadow = "";
 		}
-		document.getElementById("music").src = currentSong + "&mute=1";
-		totalScore = 0;
-		numWins = 0;
-		numLosses = 0;
-		numChancesLeft = maxNumChances;
-		displayScore();
-		scorePhone.textContent = totalScore;
-		wins.textContent = numWins;
-		winsPhone.textContent = numWins;
-		losses.textContent = numLosses;
-		lossesPhone.textContent = numLosses;
-		chancesLeft.textContent = numChancesLeft;
-		chancesLeftPhone.textContent = numChancesLeft;
+		allAudio[hangmanGame.gameLevel].pause();
+		hangmanGame.totalScore = 0;
+		hangmanGame.numWins = 0;
+		hangmanGame.numLosses = 0;
+		hangmanGame.numChancesLeft = hangmanGame.maxNumChances;
 		lastLetter.textContent = "-";
 		lastLetterPhone.textContent = "-";
-		mistakes = 0;
-		document.getElementById("hangman").src="assets/images/" + gameLevel + "/0.png";
+		hangmanGame.mistakes = 0;
+		document.getElementById("hangman").src="assets/images/" + hangmanGame.gameLevel + "/0.png";
 		startScreen.style.visibility = "visible";
 	}
 }
@@ -172,136 +301,3 @@ function help() {
 function helpHide() {
 	helpScreen.style.visibility = "hidden";
 }
-
-function easyStart() {
-	gameLevel="easy";
-	document.body.style.backgroundImage = "url('assets/images/easy.png')";
-	document.getElementById("level").style.color = "green";
-	maxNumChances = 10;
-	volume=!volume;
-	currentSong = easySong;
-	changeSound();
-	startScreen.style.visibility = "hidden";
-	category = sports;
-	pointValue = 5;
-	level.textContent = "Easy";
-	levelPhone.textContent = "Easy";
-	displayWord();
-}
-
-function mediumStart() {
-	gameLevel="medium";
-	document.body.style.backgroundImage = "url('assets/images/medium.png')";
-	document.getElementById("level").style.color = "gold";
-	maxNumChances=8;
-	volume=!volume;
-	currentSong = mediumSong;
-	changeSound();
-	startScreen.style.visibility = "hidden";
-	category = gaming;
-	pointValue = 10;
-	level.textContent = "Medium";
-	levelPhone.textContent = "Medium";
-	displayWord();
-}
-
-function hardStart() {
-	gameLevel="hard";
-	document.body.style.backgroundImage = "url('assets/images/hard.png')";
-	document.getElementById("level").style.color = "red";
-	maxNumChances=6;
-	volume=!volume;
-	currentSong = hardSong;
-	changeSound();
-	startScreen.style.visibility = "hidden";
-	category = hollywood;
-	pointValue = 20;
-	level.textContent = "Hard";
-	levelPhone.textContent = "Hard";
-	displayWord();
-}
-
-function checkChangeLevel() {
-	changeLevel=false;
-	if (numChancesLeft === maxNumChances) {
-		changeLevel = true;
-	}
-	else if (confirm("Are you sure you want to change the Category? You will lose the current game.")) {
-		numLosses++;
-		totalScore -= pointValue;
-		losses.textContent = numLosses;
-		displayScore();
-		changeLevel = true;
-	}
-}
-
-function easy() {
-	checkChangeLevel();
-	if (changeLevel) {
-		easyStart();
-	}
-}
-function medium() {
-	checkChangeLevel();
-	if (changeLevel) {
-		mediumStart();
-	}
-}
-function hard() {
-	checkChangeLevel();
-	if (changeLevel) {
-		hardStart();
-	}
-}
-
-function displayWord() {
-	currentWord = category[Math.floor(Math.random() * category.length)];
-	currentWordArray = currentWord.split('');
-	guesses = ["'","-"];
-	var wordDisplay = "<p>";
-	for(var i=0; i<currentWordArray.length; i++) {
-		if (guesses.includes(currentWordArray[i])) {
-			wordDisplay += currentWordArray[i];
-		}
-		else if (currentWordArray[i] === " " ) {
-			wordDisplay += "</p> <p>";
-		}
-		else {
-			wordDisplay += "_";
-		}
-	}
-	wordDisplay= wordDisplay + "</p>";
-	document.getElementById("wordDisplay").innerHTML = wordDisplay;
-	gameComplete=false;
-
-	alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split('');
-	for(var i=0; i<alphabet.length; i++) {
-		document.getElementById(alphabet[i]).style.color = "black";
-		document.getElementById(alphabet[i]).style.textShadow = "";
-	}
-	numChancesLeft = maxNumChances;
-	wins.textContent = numWins;
-	wins.textContent = numWins;
-	losses.textContent = numLosses;
-	lossesPhone.textContent = numLosses;
-	chancesLeft.textContent = numChancesLeft;
-	chancesLeftPhone.textContent = numChancesLeft;
-	lastLetter.textContent = "-";
-	lastLetterPhone.textContent = "-";
-	mistakes = 0;
-	document.getElementById("hangman").src="assets/images/" + gameLevel + "/0.png";
-	isWin = false;
-}
-
-function displayScore() {
-		score.textContent = totalScore;
-		if (totalScore>0) {
-			document.getElementById("score").style.color = "green";
-		}
-		else if (totalScore<0) {
-			document.getElementById("score").style.color = "red";
-		}
-		else {
-			document.getElementById("score").style.color = "white";	
-		}
-	}

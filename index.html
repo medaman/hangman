@@ -14,9 +14,9 @@
 			<div class="container">
 					<h1 class="mainTitle">Hangman</h1>
 					<h2>Start Game - Pick a Category</h2>
-					<button onclick="easyStart();">Sports - Easy</button>
-					<button onclick="mediumStart();">Gaming - Medium</button>
-					<button onclick="hardStart();">Hollywood Movies - Hard</button>
+					<button onclick="startGame('easy');">Sports - Easy</button>
+					<button onclick="startGame('medium');">Gaming - Medium</button>
+					<button onclick="startGame('hard');">Hollywood Movies - Hard</button>
 				</div>
 			</div>
 		</div>
@@ -26,10 +26,11 @@
 				<div class="jumbotron">
 					<h1>Rules of the game</h1>
 					<p>Guess the word correctly by guessing the letters in the word. You only have a limited number of guesses before you lose the game.</p>
-					<p>Easy Difficulty: Win: +5 points | Loss: -5 Points | 10 Incorrect Guesses</p> 
-					<p>Medium Difficulty: Win: +10 points | Loss: -10 Points | 8 Incorrect Guesses</p> 
-					<p>Hard Difficulty: Win: +20 points | Loss: -20 Points | 6 Incorrect Guesses</p> 
+					<p>Easy Difficulty: Win: +5 points | Loss: -5 Points | 10 Incorrect Guesses Allowed</p> 
+					<p>Medium Difficulty: Win: +10 points | Loss: -10 Points | 8 Incorrect Guesses Allowed</p> 
+					<p>Hard Difficulty: Win: +20 points | Loss: -20 Points | 6 Incorrect Guesses Allowed</p> 
 					<p>Restarting the Game will reset all stats</p>
+					<p>Press Mute Button in top right corner to turn off all sound</p>
 				</div>
 			</div>
 		</div>
@@ -66,7 +67,7 @@
 								<p>Level</p>
 							</div>
 							<div class="col-md-5">
-								<p id="level">Medium</p>
+								<p id="level"></p>
 							</div>
 						</div>
 						<div class="row" style="margin-top:20px;">
@@ -105,12 +106,12 @@
 									<div class="collapse navbar-collapse" id="navbar-collapse-1">
 										<ul class="nav navbar-nav navbar-right">
 											<li class="dropdown">
-											<button id="volumeButton" style="z-index:100;" onclick="changeSound();" class="glyphicon glyphicon-volume-up"></button>
+											<button id="volumeButton" style="z-index:100;" onclick="muteButton();" class="glyphicon glyphicon-volume-up"></button>
 											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category</a>
 											<ul class="dropdown-menu">
-												<li id="easyGame"><a href="#" onclick="easy();">Sports (EASY)</a></li>
-												<li id="mediumGame"><a href="#" onclick="medium();">Gaming (MEDIUM)</a></li>
-												<li id="hardGame"><a href="#" onclick="hard();">Hollywood Movies (HARD)</a></li>
+												<li id="easyGame"><a href="#" onclick="changeLevel('easy');">Sports (EASY)</a></li>
+												<li id="mediumGame"><a href="#" onclick="changeLevel('medium');">Gaming (MEDIUM)</a></li>
+												<li id="hardGame"><a href="#" onclick="changeLevel('hard');">Hollywood Movies (HARD)</a></li>
 											</ul>
 											</li>
 											<li><a class="helpButton" href="#" onclick="help();">Help</a></li>
@@ -145,11 +146,8 @@
 			</div>
 		</div>
 		
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 		<script src="assets/js/words.js"></script>
 		<script src="assets/js/javascript.js"></script>
-
-		<iframe id="music" width="0" height="0" frameborder="0" allowfullscreen></iframe>
 		
 	</body>
 </html>
