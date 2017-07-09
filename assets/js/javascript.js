@@ -85,46 +85,50 @@ document.onkeyup = function(event) {
 
 function keyPressed(press) {	
 	if(alphabet.includes(press)) {
-		updateCurrentWord(press);
+		checkCurrentWord(press);
 		displayScore();
 		alphabet[alphabet.indexOf(press)] = 0;
 		lastLetter.textContent = press;
 	}
 }
 
-function updateCurrentWord(press) {
+function checkCurrentWord(press) {
 	var correct = false;
-	var wordDisplay = "<p>"
 	for(var i=0; i<hangmanGame.currentWordArray.length; i++) {
-			if (hangmanGame.guesses.includes(hangmanGame.currentWordArray[i])) {
-				wordDisplay += hangmanGame.currentWordArray[i];
-			}
-			else if (hangmanGame.currentWordArray[i] === " " ) {
-				wordDisplay += "</p> <p>";
-			}
-			else if (hangmanGame.currentWordArray[i] === press) {
-				wordDisplay += press;
-				correct=true;
-				hangmanGame.guesses.push(press);
-				document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(14,181,53,0.5)";
-			}
-			else {
-				wordDisplay += "_"
-			}
+		if (hangmanGame.currentWordArray[i] === press) {
+			console.log("Enters here");
+			hangmanGame.guesses.push(press);
+			correct=true;
+			document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(14,181,53,0.5)";
+			displayWord();
 		}
-		wordDisplay += "</p>"
+	}		
+	if (!correct) {
+		hangmanGame.mistakes++;
+		hangmanGame.numChancesLeft--;
+		document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(196,23,23,0.5)";
+	}
 
-		if (!correct) {
-				hangmanGame.mistakes++;
-				hangmanGame.numChancesLeft--;
-				document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(196,23,23,0.5)";
+	document.getElementById(press).style.color = "transparent";
+	document.getElementById("hangman").src="assets/images/" + hangmanGame.gameLevel + "/" + hangmanGame.mistakes + ".png";
+}
+
+function displayWord() {
+	var wordDisplay = "<p>";
+	for (var i=0; i<hangmanGame.currentWordArray.length; i++) {
+		console.log(hangmanGame.currentWordArray[i]);
+		if (hangmanGame.guesses.includes(hangmanGame.currentWordArray[i])) {
+			wordDisplay += hangmanGame.currentWordArray[i];
 		}
-
-		document.getElementById("wordDisplay").innerHTML = wordDisplay;
-		checkWin(wordDisplay);
-
-		document.getElementById(press).style.color = "transparent";
-		document.getElementById("hangman").src="assets/images/" + hangmanGame.gameLevel + "/" + hangmanGame.mistakes + ".png";
+		else if (hangmanGame.currentWordArray[i] === " " ) {
+			wordDisplay += "</p> <p>";
+		} else {
+				wordDisplay += "_";
+		}
+	}
+	wordDisplay += "</p>";
+	document.getElementById("wordDisplay").innerHTML = wordDisplay;
+	checkWin(wordDisplay);
 }
 
 function checkWin(display) {
@@ -167,17 +171,6 @@ function displayNewWord() {
 	hangmanGame.currentWordArray = hangmanGame.currentWord.split('');
 	hangmanGame.guesses = ["'","-"];
 	var wordDisplay = "<p>";
-	for(var i=0; i<hangmanGame.currentWordArray.length; i++) {
-		if (hangmanGame.guesses.includes(hangmanGame.currentWordArray[i])) {
-			wordDisplay += hangmanGame.currentWordArray[i];
-		}
-		else if (hangmanGame.currentWordArray[i] === " " ) {
-			wordDisplay += "</p> <p>";
-		}
-		else {
-			wordDisplay += "_";
-		}
-	}
 	wordDisplay= wordDisplay + "</p>";
 	document.getElementById("wordDisplay").innerHTML = wordDisplay;
 	hangmanGame.gameComplete=false;
@@ -188,6 +181,7 @@ function displayNewWord() {
 		document.getElementById(alphabet[i]).style.textShadow = "";
 	}
 	hangmanGame.numChancesLeft = hangmanGame.maxNumChances;
+	displayWord();
 	displayScore();
 	lastLetter.textContent = "-";
 	lastLetterPhone.textContent = "-";
