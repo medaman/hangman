@@ -96,7 +96,6 @@ function checkCurrentWord(press) {
   var correct = false;
   for(var i=0; i<hangmanGame.currentWordArray.length; i++) {
     if (hangmanGame.currentWordArray[i] === press) {
-      console.log("Enters here");
       hangmanGame.guesses.push(press);
       correct=true;
       document.getElementById(press).style.textShadow = "0 0 1.5vh rgba(14,181,53,0.5)";
@@ -115,7 +114,6 @@ function checkCurrentWord(press) {
 function displayWord() {
   var wordDisplay = "<p>";
   for (var i=0; i<hangmanGame.currentWordArray.length; i++) {
-    console.log(hangmanGame.currentWordArray[i]);
     if (hangmanGame.guesses.includes(hangmanGame.currentWordArray[i])) {
       wordDisplay += hangmanGame.currentWordArray[i];
     }
