@@ -6,6 +6,10 @@ The game includes three levels:
 * Medium: Gaming
 * Hard: Hollywood Movies
 
+# Application Link
+
+Check it out [here].
+
 # Game Rules
 
 Guess the word correctly by guessing the letters in the word. You only have a limited number of guesses before you lose the game.
@@ -15,10 +19,6 @@ Guess the word correctly by guessing the letters in the word. You only have a li
 * Hard Difficulty: Win: +20 points | Loss: -20 Points | 6 Incorrect Guesses Allowed
 * Restarting the Game will reset all stats
 * Press Mute Button in top right corner to turn off all sound
-
-# Application Link
-
-Check it out [here].
 
 # Tech
 
