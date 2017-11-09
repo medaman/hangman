@@ -22,7 +22,7 @@ Guess the word correctly by guessing the letters in the word. You only have a li
 
 # Tech
 
-Star Wars RPG uses a number of open source technologies to work effectively:
+Hangman uses a number of open source technologies to work effectively:
 
 * [HTML] - The standard markup language for creating web pages and web applications
 * [CSS] - Stylesheet language used to describe presentation
